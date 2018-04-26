@@ -1,9 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
+using PotterKata.Entities;
+using PotterKata.Service;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TechTalk.SpecFlow;
 
 namespace PotterKata.FeatureTests.Steps
@@ -43,8 +42,12 @@ namespace PotterKata.FeatureTests.Steps
         [Then(@"the book will cost (.*) euros")]
         public void ThenTheBookWillCostEuros(int p0)
         {
-            var book = ScenarioContext.Current.Get<Book>(bookKey);
+            var book = ScenarioContext.Current.Get<Book>(SingleBookKey);
             Assert.AreEqual(book.Cost, 8);
+
+            var totalPrice = PriceCalculatorService.CalculateTotalPrice(book);
+
+            Assert.AreEqual(book.Cost, totalPrice);
         }
     }
 }

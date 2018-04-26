@@ -4,6 +4,6 @@
 	I must do TDD
 
 Scenario: one copy is 8 euros
-	Given I have picked up a harry potter book
+	Given There are harry potter books in the store
 	When I buy the book
 	Then the book will cost 8 euros

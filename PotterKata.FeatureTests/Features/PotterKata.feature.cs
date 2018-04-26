@@ -86,7 +86,7 @@ namespace SpecFlow.GeneratedTests.Features
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("one copy is 8 euros", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("I have picked up a harry potter book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+            testRunner.Given("There are harry potter books in the store", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
             testRunner.When("I buy the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
             testRunner.Then("the book will cost 8 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
