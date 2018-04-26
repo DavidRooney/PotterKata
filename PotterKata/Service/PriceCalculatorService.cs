@@ -7,7 +7,15 @@ namespace PotterKata.Service
     {
         public static double CalculateTotalPrice(Book[] books)
         {
-            return books.Sum(b => b.Cost);
+            var totalCost = books.Sum(b => b.Cost);
+
+            if (books.Count() == 2)
+            {
+                var discount = (double)5 / (double)100;
+                return totalCost - discount;
+            }
+
+            return totalCost;
         }
 
         public static double CalculateTotalPrice(Book book)
