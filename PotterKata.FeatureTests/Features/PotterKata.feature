@@ -21,3 +21,7 @@ Scenario: Three copies of the same book will cost 16 euros
 Scenario: Two different books gets 5% discount on total price
 	When I buy '2' different books
 	Then the basket will receive a 5% discount
+
+Scenario: Three different books gets 10% discount on total price
+	When I buy '10' different books
+	Then the basket will receive a 10% discount
