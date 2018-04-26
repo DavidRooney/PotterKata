@@ -11,7 +11,7 @@ namespace PotterKata.FeatureTests.Steps
     public sealed class PotterKataSteps
     {
         const string BooksKey = "HarryPotterBooksKey";
-        const string SingleBookKey = "SingleBookKey";
+        const string BooksInBasketKey = "BooksInBasketKey";
         const double SingleBookCost = 8;
 
         [Given(@"There are harry potter books in the store")]
@@ -23,31 +23,46 @@ namespace PotterKata.FeatureTests.Steps
                 new Book("Harry Potter and the Chamber of Secrets", SingleBookCost),
                 new Book("Harry Potter and the Prisoner of Azkaban", SingleBookCost),
                 new Book("Harry Potter and the Goblet of Fire", SingleBookCost),
-                new Book("Harry Potter and the Order of the Phoenix", SingleBookCost),
-                new Book("Harry Potter and the Half-Blood Prince", SingleBookCost),
-                new Book("Harry Potter and the Deathly Hallows", SingleBookCost)
+                new Book("Harry Potter and the Order of the Phoenix", SingleBookCost)
             };
             ScenarioContext.Current.Set<List<Book>>(allBooks, BooksKey);
         }
 
-        [When(@"I buy the book")]
-        public void WhenIBuyTheBook()
+        [When(@"I buy (.*) book|books")]
+        public void WhenIBuyBooks(int numberOfBooks)
         {
-            var book = ScenarioContext.Current.Get<List<Book>>(BooksKey).FirstOrDefault();
-            Assert.IsNotNull(book);
+            var books = ScenarioContext.Current.Get<List<Book>>(BooksKey);
+            var basket = new List<Book>();
 
-            ScenarioContext.Current.Set<Book>(book, SingleBookKey);
+            for (int i = 0; i < numberOfBooks; i++)
+            {
+                Assert.IsNotNull(books[i]);
+                basket.Add(books[i]);
+            }
+
+            ScenarioContext.Current.Set<List<Book>>(basket, BooksInBasketKey);
         }
 
-        [Then(@"the book will cost (.*) euros")]
-        public void ThenTheBookWillCostEuros(int p0)
+        [Then(@"the basket will cost (.*) euros")]
+        public void ThenTheBookWillCostEuros(int basketCost)
         {
-            var book = ScenarioContext.Current.Get<Book>(SingleBookKey);
-            Assert.AreEqual(book.Cost, 8);
+            var books = ScenarioContext.Current.Get<List<Book>>(BooksInBasketKey);
+            var price = PriceCalculatorService.CalculateTotalPrice(books.ToArray());
 
-            var totalPrice = PriceCalculatorService.CalculateTotalPrice(book);
+            Assert.AreEqual(basketCost, price);
+        }
 
-            Assert.AreEqual(book.Cost, totalPrice);
+        [Then(@"the basket will receive a (.*)% discount")]
+        public void ThenTheBasketWillReceiveADiscount(double discountPercent)
+        {
+            var books = ScenarioContext.Current.Get<List<Book>>(BooksInBasketKey);
+            var price = PriceCalculatorService.CalculateTotalPrice(books.ToArray());
+
+            var totalSum = books.Sum(b => b.Cost);
+            var percent = discountPercent / 100;
+            var expectedPrice = totalSum - percent;
+
+            Assert.AreEqual(expectedPrice, price);
         }
     }
 }

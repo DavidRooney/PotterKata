@@ -79,6 +79,11 @@ namespace SpecFlow.GeneratedTests.Features
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+            testRunner.Given("There are harry potter books in the store", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        }
+        
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "PotterKata")]
@@ -86,9 +91,22 @@ namespace SpecFlow.GeneratedTests.Features
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("one copy is 8 euros", ((string[])(null)));
             this.ScenarioSetup(scenarioInfo);
-            testRunner.Given("There are harry potter books in the store", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-            testRunner.When("I buy the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-            testRunner.Then("the book will cost 8 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.FeatureBackground();
+            testRunner.When("I buy 1 book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the basket will cost 8 euros", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "PotterKata")]
+        public virtual void TwoBooksGets5DiscountOnTotalPrice()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Two books gets 5% discount on total price", ((string[])(null)));
+            this.ScenarioSetup(scenarioInfo);
+            this.FeatureBackground();
+            testRunner.When("I buy 2 books", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            testRunner.Then("the basket will receive a 5% discount", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
             this.ScenarioCleanup();
         }
     }
