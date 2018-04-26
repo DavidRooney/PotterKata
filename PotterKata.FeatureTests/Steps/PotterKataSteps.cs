@@ -28,8 +28,46 @@ namespace PotterKata.FeatureTests.Steps
             ScenarioContext.Current.Set<List<Book>>(allBooks, BooksKey);
         }
 
-        [When(@"I buy (.*) book|books")]
-        public void WhenIBuyBooks(int numberOfBooks)
+        [When(@"I buy '(.*)' of the '(1st|2nd|3rd|4th|5th)' book")]
+        public void WhenIBuyBooks(int numberOfBooks, string bookSeriesNumber)
+        {
+            var books = ScenarioContext.Current.Get<List<Book>>(BooksKey);
+            var basket = new List<Book>();
+            int bookNumber = 0;
+
+            switch (bookSeriesNumber)
+            {
+                case "1st":
+                    bookNumber = 0;
+                    break;
+                case "2nd":
+                    bookNumber = 1;
+                    break;
+                case "3rd":
+                    bookNumber = 2;
+                    break;
+                case "4th":
+                    bookNumber = 3;
+                    break;
+                case "5th":
+                    bookNumber = 4;
+                    break;
+                default:
+                    break;
+            }
+
+            for (int i = 0; i < numberOfBooks; i++)
+            {
+                Assert.IsNotNull(books[bookNumber]);
+                basket.Add(books[bookNumber]);
+            }
+
+            ScenarioContext.Current.Set<List<Book>>(basket, BooksInBasketKey);
+        }
+
+        [When(@"I buy '(.*)' book")]
+        [When(@"I buy '(.*)' different book|books")]
+        public void WhenIBuyDifferentBooks(int numberOfBooks)
         {
             var books = ScenarioContext.Current.Get<List<Book>>(BooksKey);
             var basket = new List<Book>();
